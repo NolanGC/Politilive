@@ -1,0 +1,34 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'politilive/style.css' %}">
+
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<div class="center">
+<form action="{% url 'politilive:vote' question.id %}" method="post">
+{% csrf_token %}
+{% for choice in question.choices %}
+    <label class = "choices">
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{ choice }}">
+        <label for="choice{{ forloop.counter }}">{{ choice }}</label><br>
+    </label>
+{% endfor %}
+<input class='button'input type="submit" value=">">
+</form>
+</div>
+
+<div class="graphwrapper">
+    <style>
+        .dot {
+            position: absolute;
+            top: {{top_align}}%; 
+            left: {{left_align}}%;
+            width: 10px;
+            height: 10px;
+        }
+    </style>
+    <img class= "compass" img src="{% static "politilive/images/compass.png" %}" alt="Political Compass" />
+    <img class= "dot" img src="{% static "politilive/images/dot.jpg" %}" title={{political_location}} />
+</div>
+
